@@ -1,0 +1,69 @@
+---
+title: "YAML"
+author: Fumilayo Moustapha  ANA 515 Assignment 1 
+date:  2022
+output: word_document
+theme: 
+  bootawatch: Vapor
+---
+```{r,  include=FALSE}
+library(bslib)
+library(tidyverse)
+library(knitr)
+library(dplyr)
+library(rmarkdown)
+library(ggplot2)
+```
+
+```{r, include=FALSE}
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+data_538<- read_csv(url)
+glimpse(data_538)
+
+```
+
+```{r, include=FALSE}
+gun_deaths<-filter(data_538 ,age<=65)
+youth<-gun_deaths
+```
+
+```{r,include=FALSE}
+summary(youth)
+```
+
+```{r, include=FALSE}
+row_data538<-nrow(data_538)
+```
+
+```{r, include=FALSE}
+row_youth<-nrow(youth)
+row_youth
+```
+
+```{r,echo=FALSE}
+#
+```
+
+We have data about `r nrow(data_538)` individuals killed by guns.
+Only `r nrow(youth)`are older than 65. 
+The distribution of the remainder is shown below:
+
+# Guns death by age
+
+```{r, youth-dist,echo=FALSE}
+youth%>%
+  ggplot(aes(age))+
+  geom_freqpoly(binwidth=1)
+
+```
+
+# Guns death by race
+
+```{r race-dist, echo=FALSE}
+
+youth %>%
+  ggplot(aes(fct_infreq(race)%>%fct_rev()))+
+  geom_bar()+coord_flip()+
+  labs(x="victim race")
+```
+
